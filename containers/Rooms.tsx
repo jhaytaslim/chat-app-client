@@ -27,7 +27,7 @@ function RoomsContainer() {
     console.log("axiosReq: ",axiosReq)
     const { status, data, }  = await axios(axiosReq)
 
-    console.log("info: ", data,status,message)
+    console.log("info: ", data,status)
 
     // set room name input to empty string
     newRoomRef.current.value = "";
