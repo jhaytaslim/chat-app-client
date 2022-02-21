@@ -25,7 +25,7 @@ function RoomsContainer() {
       data: {name: roomName}
     } 
     console.log("axiosReq: ",axiosReq)
-    const { status, data, message }  = await axios(axiosReq)
+    const { status, data, }  = await axios(axiosReq)
 
     console.log("info: ", data,status,message)
 
