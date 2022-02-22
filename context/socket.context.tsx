@@ -31,7 +31,7 @@ function SocketsProvider(props: any) {
 
   useEffect(() => {
     window.onfocus = function () {
-      document.title = "Chat app";
+      document.title = "Chazt app";
     };
   }, []);
 

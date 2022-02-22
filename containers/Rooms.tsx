@@ -1,19 +1,19 @@
-import { useRef } from "react";
-import EVENTS from "../config/events";
-import { useSockets } from "../context/socket.context";
-import styles from "../styles/Room.module.css";
-import axios from 'axios';
-import { BASE_URL } from "../config/default";
+import { useRef } from 'react'
+import EVENTS from '../config/events'
+import { useSockets } from '../context/socket.context'
+import styles from '../styles/Room.module.css'
+import axios from 'axios'
+import { BASE_URL } from '../config/default'
 
-function RoomsContainer() {
-  const { socket, roomId, rooms } = useSockets();
-  const newRoomRef = useRef(null);
+function RoomsContainer (props) {
+  const { socket, roomId, rooms } = useSockets()
+  const newRoomRef = useRef(null)
 
-  async function handleCreateRoom() {
+  async function handleCreateRoom () {
     //get the room name
-    const roomName = newRoomRef.current.value || "";
+    const roomName = newRoomRef.current.value || ''
 
-    if (!String(roomName).trim()) return;
+    if (!String(roomName).trim()) return
 
     // // emit room created event
     // socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName });
@@ -22,39 +22,42 @@ function RoomsContainer() {
       method: 'POST',
       url: `${BASE_URL}/talk`,
       headers: { 'Content-Type': 'application/json' },
-      data: {name: roomName}
-    } 
-    console.log("axiosReq: ",axiosReq)
-    const { status, data, }  = await axios({
+      data: { name: roomName }
+    }
+    console.log('axiosReq: ', axiosReq)
+    const { status, data } = await axios({
       method: 'POST',
       url: `${BASE_URL}/talk`,
       headers: { 'Content-Type': 'application/json' },
-      data: {name: roomName}
-    } )
+      data: { name: roomName }
+    })
 
-    console.log("info: ", data,status)
+    console.log('info: ', data, status)
 
     // set room name input to empty string
-    newRoomRef.current.value = "";
+    newRoomRef.current.value = ''
   }
 
-  function handleJoinRoom(key) {
-    if (key === roomId) return;
+  function handleJoinRoom (key) {
+    if (key === roomId) return
 
-    socket.emit(EVENTS.CLIENT.JOIN_ROOM, key);
+    socket.emit(EVENTS.CLIENT.JOIN_ROOM, key)
   }
 
   return (
     <nav className={styles.wrapper}>
-      <div className={styles.createRoomWrapper}>
-        <input ref={newRoomRef} placeholder="Room name" />
-        <button className="cta" onClick={handleCreateRoom}>
-          CREATE ROOM
-        </button>
-      </div>
+      {props.isAdmin == true && (
+        <div className={styles.createRoomWrapper}>
+          <input ref={newRoomRef} placeholder='Room name' />
+          <button className='cta' onClick={handleCreateRoom}>
+            CREATE ROOM
+          </button>
+        </div>
+      )}
 
       <ul className={styles.roomList}>
-        {Object.keys(rooms).map((key) => {
+        ROOMS
+        {Object.keys(rooms).map(key => {
           return (
             <div key={key}>
               <button
@@ -65,11 +68,11 @@ function RoomsContainer() {
                 {rooms[key].name}
               </button>
             </div>
-          );
+          )
         })}
       </ul>
     </nav>
-  );
+  )
 }
 
-export default RoomsContainer;
+export default RoomsContainer
