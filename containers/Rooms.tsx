@@ -25,7 +25,12 @@ function RoomsContainer() {
       data: {name: roomName}
     } 
     console.log("axiosReq: ",axiosReq)
-    const { status, data, }  = await axios(axiosReq)
+    const { status, data, }  = await axios({
+      method: 'POST',
+      url: `${BASE_URL}/talk`,
+      headers: { 'Content-Type': 'application/json' },
+      data: {name: roomName}
+    } )
 
     console.log("info: ", data,status)
 
